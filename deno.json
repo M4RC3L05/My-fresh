@@ -1,0 +1,39 @@
+{
+  "tasks": {
+    "pre:bundle-islands": "rm -rf ./static/dist && cp deno.json deno.web.json && sed -i 's/\"jsx\": \"precompile\"/\"jsx\": \"react-jsx\"/' deno.web.json",
+    "main:bundle-islands": "deno bundle --platform browser --format esm --code-splitting --inline-imports --minify --outdir=./static/dist --config=deno.web.json ./src/islands/**/*.tsx",
+    "post:bundle-islands": "rm deno.web.json",
+    "bundle-islands": {
+      "description": "Bundles app's islands of interactivity",
+      "command": "deno task pre:bundle-islands && deno task main:bundle-islands && deno task post:bundle-islands"
+    },
+    
+    "pre:compile": "rm -rf ./app",
+    "main:compile": "deno compile -A --cached-only --include=./static --output=./app src/main.tsx",
+    "compile": {
+      "description": "Compile app into a self containing executable",
+      "command": "deno task pre:compile && deno task main:compile",
+      "dependencies": ["bundle-islands"]
+    },
+
+    "run": {
+      "description": "Runs the application",
+      "command": "deno run -A --cached-only src/main.tsx",
+      "dependencies": ["bundle-islands"]
+    }
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "preact"
+  },
+  "lock": { "frozen": true },
+  "unstable": ["raw-imports", "npm-lazy-caching"],
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@4.12.7",
+    "@preact/signals": "npm:@preact/signals@2.8.2",
+    "@std/path": "jsr:@std/path@1.1.4",
+    "preact": "npm:preact@10.29.0",
+    "preact-render-to-string": "npm:preact-render-to-string@6.6.6",
+    "simpledotcss": "npm:simpledotcss@2.3.7"
+  }
+}
