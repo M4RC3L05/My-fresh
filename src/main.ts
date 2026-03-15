@@ -1,14 +1,15 @@
-import { renderToString } from "preact-render-to-string";
 import { Hono } from "@hono/hono";
 import { serveStatic } from "@hono/hono/deno";
 import { secureHeaders } from "@hono/hono/secure-headers";
 import { Index } from "./pages/Index.tsx";
-import { Page } from "./pages/Page.tsx";
 import { resolve } from "@std/path";
 import { Static } from "./pages/Static.tsx";
 import { gracefulShutdown } from "./process.ts";
+import { renderPage } from "./utils/render.tsx";
+import { layout } from "./pages/layout.ts";
 
 const app = new Hono();
+
 app.use(
   secureHeaders({
     crossOriginEmbedderPolicy: "require-corp",
@@ -29,7 +30,7 @@ app.use(
       scriptSrcAttr: ["'none'"],
       scriptSrcElem: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'"],
-      styleSrcAttr: ["none"],
+      styleSrcAttr: ["'none'"],
       styleSrcElem: ["'self'", "'unsafe-inline'"],
       upgradeInsecureRequests: [],
       workerSrc: ["'self'"],
@@ -56,36 +57,23 @@ app.get(
 app.get(
   "/",
   (ctx) => {
-    return ctx.html(`<!DOCTYPE html>${
-      renderToString(
-        <Page>
-          <Page.Head>
-            <Page.Head.Title title="Index page" />
-          </Page.Head>
-          <Page.Body>
-            <Index val={5} />
-          </Page.Body>
-        </Page>,
-      )
-    }`);
+    return ctx.html(
+      renderPage(Index, {
+        props: { val: 5 },
+        layout: layout({ title: "Index page" }),
+      }),
+    );
   },
 );
 
 app.get(
   "/no-js",
   (ctx) => {
-    return ctx.html(`<!DOCTYPE html>${
-      renderToString(
-        <Page>
-          <Page.Head>
-            <Page.Head.Title title="No JS page" />
-          </Page.Head>
-          <Page.Body>
-            <Static />
-          </Page.Body>
-        </Page>,
-      )
-    }`);
+    return ctx.html(
+      renderPage(Static, {
+        layout: layout({ title: "No JS page" }),
+      }),
+    );
   },
 );
 

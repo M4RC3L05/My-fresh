@@ -5,6 +5,7 @@ import Preact, {
   hydrate,
 } from "preact";
 import { useContext } from "preact/hooks";
+import { HydrationContext } from "./utils/hydration.ts";
 
 declare module "preact/jsx-runtime" {
   namespace JSX {
@@ -16,77 +17,50 @@ declare module "preact/jsx-runtime" {
 
 const IslandContext = createContext(false);
 
-// deno-lint-ignore ban-types
-export function withIsland<P extends Record<string, unknown> = {}>(
+export function withIsland<P extends Record<string, unknown>>(
   Component: FunctionalComponent<P>,
   path: string,
 ): FunctionalComponent<P> {
   if (typeof document !== "undefined") {
-    return (props: P) => {
-      const parent = (props as { "@@target_hydrate@@"?: ContainerNode })[
-        "@@target_hydrate@@"
-      ];
-      delete props["@@target_hydrate@@"];
-
-      if (parent) {
-        hydrate(<Component {...props} />, parent);
+    return (props: P, target: ContainerNode) => {
+      if (target instanceof HTMLElement) {
+        hydrate(<Component {...props} />, target);
 
         return;
       }
 
-      return (
-        <preact-island>
-          <Component {...props} />
-        </preact-island>
-      );
+      return <Component {...props} />;
     };
   }
 
   // This prevents bundling the server code!
-  const importPath = path.split("/src/islands/")
-    .at(-1)
-    ?.replace(".tsx", ".js")
-    ?.replace(".ts", ".js");
+  const importPath = path.substring(
+    path.indexOf("src/islands/") + "src/islands/".length,
+  ).replace(/\.[^/.]+$/, ".js");
+  const importName = importPath?.replaceAll("/", "_")?.replaceAll(".", "_");
 
   return (props: P) => {
     const inIslandContext = useContext(IslandContext);
+    const hydrations = useContext(HydrationContext);
+    const target = !inIslandContext
+      ? {
+        hydration: `pih-${importName}-${(hydrations?.length ?? 0) + 1}`,
+        props,
+      }
+      : undefined;
 
-    return (
-      <>
-        {inIslandContext
-          ? (
-            <preact-island>
-              <Component {...props} />
-            </preact-island>
-          )
-          : (
-            <IslandContext.Provider value>
-              <preact-island>
-                <Component {...props} />
-              </preact-island>
-            </IslandContext.Provider>
-          )}
-        {!inIslandContext && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                (() => {
-                  var s = document.currentScript;
-                  document.addEventListener("DOMContentLoaded", () => {
-                    var target = s.closest("preact-island") ? null : s.previousSibling;
-                    var props = ${JSON.stringify(props ?? {})};
-                    props["@@target_hydrate@@"] = target;
+    if (!inIslandContext) {
+      hydrations.push({ target: target!, importPath, importName });
+    }
 
-                    import("/static/dist/${importPath}")
-                      .then((m) => m.default(props))
-                      .finally(() => s.remove());
-                  });
-                })()
-              `,
-            }}
-          />
-        )}
-      </>
-    );
+    return inIslandContext
+      ? <Component {...props} />
+      : (
+        <IslandContext.Provider value>
+          <preact-island id={target?.hydration}>
+            <Component {...props} />
+          </preact-island>
+        </IslandContext.Provider>
+      );
   };
 }

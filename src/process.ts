@@ -1,5 +1,4 @@
 export const gracefulShutdown = () => {
-  // const log = makeLogger("gracefull-shutdown");
   const abortController = new AbortController();
   const { promise, resolve } = Promise.withResolvers<void>();
   let exitCode = 0;
