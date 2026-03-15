@@ -7,7 +7,7 @@
       "description": "Bundles app's islands of interactivity",
       "command": "deno task pre:bundle-islands && deno task main:bundle-islands && deno task post:bundle-islands"
     },
-    
+
     "pre:compile": "rm -rf ./app",
     "main:compile": "deno compile -A --cached-only --include=./static --output=./app src/main.ts",
     "compile": {
