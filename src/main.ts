@@ -12,7 +12,9 @@ const app = new Hono();
 
 app.use(
   secureHeaders({
-    crossOriginEmbedderPolicy: "require-corp",
+    crossOriginOpenerPolicy: "same-origin",
+    crossOriginEmbedderPolicy: "credentialless",
+    crossOriginResourcePolicy: "same-origin",
     contentSecurityPolicy: {
       defaultSrc: ["'self'"],
       baseUri: ["'self'"],
@@ -22,16 +24,20 @@ app.use(
       formAction: ["'self'"],
       frameAncestors: ["'self'"],
       frameSrc: ["'self'"],
-      imgSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https://tile.openstreetmap.org"],
       manifestSrc: ["'self'"],
       mediaSrc: ["'self'"],
       objectSrc: ["'none'"],
       scriptSrc: ["'self'"],
       scriptSrcAttr: ["'none'"],
-      scriptSrcElem: ["'self'", "'unsafe-inline'"],
+      scriptSrcElem: ["'self'", "'unsafe-inline'", "https://unpkg.com"],
       styleSrc: ["'self'"],
-      styleSrcAttr: ["'none'"],
-      styleSrcElem: ["'self'", "'unsafe-inline'"],
+      styleSrcAttr: [
+        "'none'",
+        "'sha256-X1t21O9B11I6KXfTVGKaJ3t+ISIno5HeUJREz6FZTzU='",
+        "'unsafe-hashes'",
+      ],
+      styleSrcElem: ["'self'", "'unsafe-inline'", "https://unpkg.com"],
       upgradeInsecureRequests: [],
       workerSrc: ["'self'"],
     },
