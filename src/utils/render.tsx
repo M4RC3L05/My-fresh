@@ -7,6 +7,8 @@ type RenderPageProps<P> = {
   layout: (content: string) => string;
 };
 
+const cacheKey = Deno.env.get("STATIC_CACHE_KEY") ?? crypto.randomUUID();
+
 export type LayoutFunction = () => string;
 
 export const renderPage = <
@@ -38,7 +40,7 @@ export const renderPage = <
         imports.set(item.importPath, true);
 
         importsSrc +=
-          `import ${item.importName} from "/static/dist/${item.importPath}";`;
+          `import ${item.importName} from "/static/dist/${item.importPath}?ck=${cacheKey}";`;
       }
 
       codeSrc += `${item.importName}(${

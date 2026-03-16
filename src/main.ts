@@ -34,7 +34,6 @@ app.use(
       scriptSrcElem: ["'self'", "'unsafe-inline'", "https://unpkg.com"],
       styleSrc: ["'self'"],
       styleSrcAttr: [
-        "'none'",
         "'sha256-X1t21O9B11I6KXfTVGKaJ3t+ISIno5HeUJREz6FZTzU='",
         "'unsafe-hashes'",
       ],
@@ -58,6 +57,11 @@ app.get(
   serveStatic({
     root: resolve(import.meta.dirname!, "..", "static"),
     rewriteRequestPath: (path) => path.replace("/static/", "/"),
+    onFound: (p, ctx) => {
+      if (p.endsWith(".js")) {
+        ctx.header("Cache-Control", "public, max-age=31536000");
+      }
+    },
   }),
 );
 
