@@ -1,4 +1,4 @@
-import { FunctionalComponent } from "preact";
+import type { FunctionalComponent } from "preact";
 import { withIsland } from "../../core/island.tsx";
 
 const Button: FunctionalComponent<{ name?: string }> = ({ name }) => {

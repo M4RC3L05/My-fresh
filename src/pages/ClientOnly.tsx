@@ -1,4 +1,4 @@
-import { FunctionalComponent } from "preact";
+import type { FunctionalComponent } from "preact";
 import Map from "../islands/Map.tsx";
 
 export const ClientOnly: FunctionalComponent = () => {

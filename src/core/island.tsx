@@ -1,7 +1,8 @@
-import Preact, {
-  ContainerNode,
+import type Preact from "preact";
+import {
+  type ContainerNode,
   createContext,
-  FunctionalComponent,
+  type FunctionalComponent,
   hydrate,
 } from "preact";
 import { useContext } from "preact/hooks";

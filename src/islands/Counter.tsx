@@ -1,4 +1,4 @@
-import { FunctionalComponent } from "preact";
+import type { FunctionalComponent } from "preact";
 import { count } from "../state/signals.ts";
 import { withIsland } from "../core/island.tsx";
 import Button from "./button/Button.tsx";

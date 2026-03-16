@@ -1,4 +1,4 @@
-import { FunctionalComponent } from "preact";
+import type { FunctionalComponent } from "preact";
 import { effect, useSignal } from "@preact/signals";
 import { withIsland } from "../core/island.tsx";
 

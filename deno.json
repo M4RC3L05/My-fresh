@@ -26,6 +26,22 @@
     "jsx": "precompile",
     "jsxImportSource": "preact"
   },
+  "lint": {
+    "exclude": ["static"],
+    "rules": {
+      "include": [
+        "verbatim-module-syntax"
+      ],
+      "tags": [
+        "recommended",
+        "jsr",
+        "jsx"
+      ]
+    }
+  },
+  "fmt": {
+    "exclude": ["static"]
+  },
   "lock": { "frozen": true },
   "unstable": ["raw-imports", "npm-lazy-caching"],
   "imports": {

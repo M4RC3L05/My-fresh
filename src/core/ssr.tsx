@@ -1,6 +1,6 @@
-import { FunctionalComponent } from "preact";
+import type { FunctionalComponent } from "preact";
 import { renderToString } from "preact-render-to-string";
-import { HydrationConfig, HydrationContext } from "./hydration-context.ts";
+import { type HydrationConfig, HydrationContext } from "./hydration-context.ts";
 
 type RenderPageProps<P> = {
   props?: P;
@@ -34,7 +34,7 @@ export const renderPage = <
     const imports: Map<string, boolean> = new Map();
 
     for (let i = 0, size = hydrations.length; i < size; i += 1) {
-      const item = hydrations[i];
+      const item = hydrations[i]!;
 
       if (!imports.has(item.importPath)) {
         imports.set(item.importPath, true);
