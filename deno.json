@@ -9,7 +9,7 @@
     },
 
     "pre:compile": "rm -rf ./app",
-    "main:compile": "deno compile -A --cached-only --include=./static --output=./app src/main.ts",
+    "main:compile": "deno compile -A --cached-only --no-check --include=./static --output=./app src/main.ts",
     "compile": {
       "description": "Compile app into a self containing executable",
       "command": "deno task pre:compile && deno task main:compile",
