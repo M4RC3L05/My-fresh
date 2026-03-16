@@ -1,5 +1,5 @@
 import { FunctionalComponent } from "preact";
-import { withIsland } from "../../../src/client-runtime.tsx";
+import { withIsland } from "../../core/island.tsx";
 
 const Button: FunctionalComponent<{ name?: string }> = ({ name }) => {
   return (

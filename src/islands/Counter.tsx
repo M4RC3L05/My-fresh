@@ -1,6 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { count } from "../state/signals.ts";
-import { withIsland } from "../../src/client-runtime.tsx";
+import { withIsland } from "../core/island.tsx";
 import Button from "./button/Button.tsx";
 import { useSignal } from "@preact/signals";
 

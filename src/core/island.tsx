@@ -5,7 +5,7 @@ import Preact, {
   hydrate,
 } from "preact";
 import { useContext } from "preact/hooks";
-import { HydrationContext } from "./utils/hydration.ts";
+import { HydrationContext } from "./hydration-context.ts";
 
 declare module "preact/jsx-runtime" {
   namespace JSX {

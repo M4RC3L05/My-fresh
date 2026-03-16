@@ -1,6 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { renderToString } from "preact-render-to-string";
-import { HydrationConfig, HydrationContext } from "./hydration.ts";
+import { HydrationConfig, HydrationContext } from "./hydration-context.ts";
 
 type RenderPageProps<P> = {
   props?: P;

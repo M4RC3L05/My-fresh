@@ -1,6 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { effect, useSignal } from "@preact/signals";
-import { withIsland } from "../client-runtime.tsx";
+import { withIsland } from "../core/island.tsx";
 
 // MapComponent utilizes Leaflet context for rendering the map
 const Map: FunctionalComponent = () => {

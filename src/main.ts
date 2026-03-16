@@ -5,7 +5,7 @@ import { Index } from "./pages/Index.tsx";
 import { resolve } from "@std/path";
 import { Static } from "./pages/Static.tsx";
 import { gracefulShutdown } from "./process.ts";
-import { renderPage } from "./utils/render.tsx";
+import { renderPage } from "./core/ssr.tsx";
 import { layout } from "./pages/layout.ts";
 import { ClientOnly } from "./pages/ClientOnly.tsx";
 
