@@ -7,6 +7,7 @@ import { Static } from "./pages/Static.tsx";
 import { gracefulShutdown } from "./process.ts";
 import { renderPage } from "./utils/render.tsx";
 import { layout } from "./pages/layout.ts";
+import { ClientOnly } from "./pages/ClientOnly.tsx";
 
 const app = new Hono();
 
@@ -67,6 +68,17 @@ app.get(
       renderPage(Index, {
         props: { val: 5 },
         layout: layout({ title: "Index page" }),
+      }),
+    );
+  },
+);
+
+app.get(
+  "/client-only",
+  (ctx) => {
+    return ctx.html(
+      renderPage(ClientOnly, {
+        layout: layout({ title: "Client only page" }),
       }),
     );
   },
