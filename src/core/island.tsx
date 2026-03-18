@@ -16,13 +16,14 @@ declare module "preact/jsx-runtime" {
   }
 }
 
+const isBrowser = typeof document !== "undefined";
 const IslandContext = createContext(false);
 
 export function withIsland<P extends Record<string, unknown>>(
   Component: FunctionalComponent<P>,
   path: string,
 ): FunctionalComponent<P> {
-  if (typeof document !== "undefined") {
+  if (isBrowser) {
     return (props: P, target: ContainerNode) => {
       if (target instanceof HTMLElement) {
         hydrate(<Component {...props} />, target);

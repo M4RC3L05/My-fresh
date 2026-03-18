@@ -28,7 +28,7 @@ export const renderPage = <
 
   let scriptSrc = "";
 
-  if (hydrations.length) {
+  if (hydrations.length > 0) {
     let importsSrc = "";
     let codeSrc = "";
     const imports: Map<string, boolean> = new Map();
