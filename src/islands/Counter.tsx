@@ -33,7 +33,7 @@ const Counter: FunctionalComponent<{ name?: string; lCount?: number }> = (
 
       <hr />
 
-      <Button name={name} />
+      <Button {...(name && { name })} />
     </div>
   );
 };

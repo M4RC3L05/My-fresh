@@ -23,8 +23,34 @@
     }
   },
   "compilerOptions": {
+    "lib": [
+      "deno.window",
+      "deno.unstable",
+      "node",
+      "dom"
+    ],
     "jsx": "precompile",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+
+    "strict": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictBindCallApply": true,
+    "strictBuiltinIteratorReturn": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true
   },
   "lint": {
     "exclude": ["static"],
